@@ -10,20 +10,23 @@ int L = 5;                                                  // Tamanho das matri
 int main(void){
 
     srand(time(NULL));
-    int i,j;
+    int i,j,k;
+    int soma = 0;
+    int menor;
+    int diagonal[L];
     int matriz_A[L][L],
         matriz_B[L][L],
         matriz_C[L][L],
         matriz_R[L][L];
     
     
-    for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 100
+    for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 10
     {
         for(j=0;j<L;j++)
         {
-            matriz_A[i][j] = (rand()%100);                      
-            matriz_B[i][j] = (rand()%100);
-            matriz_C[i][j] = (rand()%100);
+            matriz_A[i][j] = (rand()%10);                      
+            matriz_B[i][j] = (rand()%10);
+            matriz_C[i][j] = (rand()%10);
         }
     }
 
@@ -50,28 +53,106 @@ int main(void){
         printf("\n");
     }
 
+    printf("\n");
+    printf("----------- Matriz C ---------------\n\n");
 
     for(i=0;i<L;i++)
     {
         for(j=0;j<L;j++)
         {
-            matriz_R[i][j]= matriz_A[i][j] * matriz_B[j][i];
+            printf("%.2d ",matriz_C[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Fazendo as multiplicações:
+
+
+    for(i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            for(k=0;k<L;k++)
+            {
+                soma += matriz_A[i][k] * matriz_B[k][j];
+            }
+            matriz_R[i][j] = soma;
+            soma = 0;
         }
     }
 
-     printf("\n");
+    // Matriz_R agora tem o resultado da multiplicação de A por B
+
+    for(i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            matriz_A[i][j] = matriz_R[i][j];
+        }
+    }
+
+    for(i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            for(k=0;k<L;k++)
+            {
+                soma += matriz_A[i][k] * matriz_C[k][j];
+            }
+            matriz_R[i][j] = soma;
+            soma = 0;
+        }
+    }
+
+    // Matriz_R agora tem o resultado da multiplicação de A x B x C
+
+
+    printf("\n");
     printf("----------- Matriz R ---------------\n\n");
 
     for(i=0;i<L;i++)
     {
         for(j=0;j<L;j++)
         {
-            printf("%.2d ",matriz_R[i][j]);
+            printf("%.4d ",matriz_R[i][j]);
         }
         printf("\n");
     }
 
+     printf("\n");
+      printf("\n");
 
 
-    
+    // Vetor "diagonal" recebe a diagonal da matriz resultado
+
+    for(i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            if(i==j)
+            {
+                diagonal[i] = matriz_R[i][j];
+            }
+        }
+    }
+
+    menor = diagonal[0];
+
+    for(i=0;i<L;i++)
+    {
+        if(menor > diagonal[i])
+            menor = diagonal[i];
+    }
+
+    printf("\n --> Diagonal principal \n");
+    for(i=0;i<L;i++)
+    {
+        printf("%d ",diagonal[i]) ;
+    }
+
+    printf("\n --> Menor Elemento: ");
+    printf("%d\n",menor);
+
 }
+
+
