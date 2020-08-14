@@ -1,25 +1,68 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+
+int L = 2;
+
+int main()
+{
+
+    int i,j;
+    int a[L][L];
+    int b[L][L];
+    int R[L][L];
+
+    int resultado;
+
+    for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 10
+    {
+        for(j=0;j<L;j++)
+        {
+            a[i][j] = (rand()%5);                      
+            b[i][j] = (rand()%5);
+        }
+    }
+
+    for(i=0;i<L;i++) 
+    {                                       
+        for(j=0;j<L;j++)
+        {
+            R[i][j] = 0;
+        }
+    }
+
+     printf("\n-------- Matriz A --------\n");
+
+    for(i=0;i<L;i++) 
+    {                                       
+        for(j=0;j<L;j++)
+        {
+            printf("%d ",a[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n-------- Matriz B --------\n");
+
+    for(i=0;i<L;i++) 
+    {                                       
+        for(j=0;j<L;j++)
+        {
+            printf("%d ",b[i][j]);
+        }
+        printf("\n");
+    }
 
 
-int main(){
 
-    int m[2][2];
 
-    int resultado = 0;
+    extern int mul_matriz (int*,int*,int*,int);
 
-    m[0][0] = 1;
-    m[0][1] = 2;
-    m[1][0] = 3;
-    m[1][1] = 4;
+    resultado = mul_matriz(*a,*b,*R,L);
 
     
-
-
-    extern int soma_asm (int*);
-
-    resultado = soma_asm(*m);
-
-    printf("%d",resultado);
-    
-
+    printf("\n-------- Matriz R --------\n");
+    printf("%d ",resultado);
+   
 }
