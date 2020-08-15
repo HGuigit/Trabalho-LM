@@ -6,10 +6,12 @@ aux_R : db 0
 aux_L : db 0
 
 i: db 0
-j: db 0
-k: db 0
 
-soma: db 0
+cont_col : db 0
+
+cont_lin : db 0
+
+soma: dd 0
 
 int: db 4
 var: db 0
@@ -36,8 +38,8 @@ mul_matriz:
     mov eax,[ebp+16]
     mov [aux_R],eax
 
-    mov eax,[ebp+20]                ; aul_L = 2
-    mov [aux_L],eax
+    mov eax,[ebp+20]                ; aul_L = 2 neste exemplo
+    mov [aux_L],eax                 ; var = 2
     mov [var],eax
 
     mov ax,[aux_L]
@@ -61,11 +63,10 @@ loop1:
     add ecx,[int]
     add ebx,[aux_L]
 
-    mul edx
+    mul dx
 
     add [soma],eax
 
-    
     xor eax,eax
     add byte [i],1
 
@@ -73,10 +74,13 @@ loop1:
     cmp eax,[var]
     jb loop1
 
+    xor eax,eax
 
-    jmp loop1
+    ; Neste ponto soma tem linha 1 x coluna 1
 
-    mov eax,[soma]
+    mov eax,[ebp+16]
+    
+    
 
     mov esp,ebp
     pop ebp
