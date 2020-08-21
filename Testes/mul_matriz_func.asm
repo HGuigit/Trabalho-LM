@@ -99,7 +99,7 @@ loop_coluna:
     
     mov ebx,[ebp+16]
     mov eax,[contador_R]
-    add [ebx],eax
+    add ebx,eax
     mov eax,[soma]
     mov [ebx],eax
 

@@ -12,8 +12,8 @@ int main()
     int a[L][L];
     int b[L][L];
     int R[L][L];
-
-    int *resultado;
+    srand(time(0));
+    int resultado;
 
     for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 10
     {
@@ -57,15 +57,12 @@ int main()
 
 
 
-    extern int* mul_matriz (int*,int*,int*,int);
+    extern int mul_matriz (int*,int*,int*,int);
 
     resultado = mul_matriz(*a,*b,*R,L);
 
     
     printf("\n-------- Matriz R --------\n");
-    printf("%d ",resultado[0]);
-    printf("%d ",resultado[1]);
-    printf("%d ",resultado[2]);
-    printf("%d ",resultado[3]);
-   
+    printf("%d ",resultado);
+
 }

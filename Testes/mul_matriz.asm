@@ -54,7 +54,7 @@ mul_matriz:
     ;mov eax,[ebp+16]       ;eax tem o endereço da primeira casa da matriz Resposta
     mov ecx,[ebp+8]         ;ecx tem o endereço da primeira casa da matriz A
     mov ebx,[ebp+12]        ;ebx tem o endereço da primeira casa da matriz B
-
+    
 loop1:
 
     mov eax,[ecx]             ; x = tamanho do int = 4
@@ -78,7 +78,7 @@ loop1:
 
     ; Neste ponto soma tem linha 1 x coluna 1
 
-    mov eax,[ebp+16]
+    mov eax,[soma]
     
     
 
