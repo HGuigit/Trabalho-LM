@@ -1,0 +1,160 @@
+SECTION .data
+
+ik: dd 0
+aux_L : dd 0
+
+cont_col : dd 0
+
+cont_lin : dd 0
+
+contador_R: dd 0
+
+soma: dd 0
+
+int: dd 4
+var: dd 0
+
+%macro Organiza 4
+# ----------------------- INICIO MACRO -----------------------------
+    # (cont_lin) = %1 / (cont_col) = %2 / (aux_L) = %3 / (int) = %4
+
+    push eax
+    push edx
+
+    mov eax,%1
+    mov edx,%3
+
+    mul edx 
+
+    add ecx,eax
+
+    xor eax,eax
+    xor edx,edx
+
+    mov eax,%2
+    mov edx,%4
+
+    mul edx
+
+    add ebx,eax
+
+    pop edx
+    pop eax
+
+
+# ----------------------- FIM MACRO --------------------------------
+%endmacro
+
+%macro multiplica 5
+# ----------------------- INICIO MACRO -----------------------------
+
+    # (ik) = %1 / (soma) = %2 / (aux_L) = %3 / (int) = %4 / (var) = %5
+
+    loop1:
+    
+    mov eax,(ecx)             # x = tamanho do int = 4
+    mov edx,(ebx)             # y = aux_L
+
+    add ecx,%4                # < --- ERRO
+    add ebx,%3
+ 
+    mul edx
+
+    add %2,eax
+
+    xor eax,eax
+    inc dword %1
+
+    mov eax,%1
+    cmp eax,%5
+    jb loop1
+
+    xor eax,eax
+
+  
+# ----------------------- FIM MACRO --------------------------------
+
+%endmacro 
+
+SECTION .text
+global mul_matriz
+
+mul_matriz:
+
+    push %ebp
+    mov %esp, %ebp
+
+
+    mov 20(%ebp),%eax            
+    mov %eax, ($aux_L)                 
+    mov %eax, ($var)
+
+    mov ($aux_L), %eax
+    mov $4, %bl
+    mul %bl
+
+    mov %eax,($aux_L)            
+    
+    # var = numero de elementos da linha
+    # aux_L =  L * 4
+    # int = 4
+
+    mov 8(%ebp), %ecx          #ecx tem o endereço da primeira casa da matriz A
+    mov 12(%ebp), %ebx        #ebx tem o endereço da primeira casa da matriz B
+jmp loop_linha_cond
+loop_linha:
+    mov $0, (%cont_col)
+loop_coluna:                    
+    mov 8(%ebp), %ecx     #ecx tem o endereço da primeira casa da matriz A
+    mov 12(%ebp), %ebx    #ebx tem o endereço da primeira casa da matriz B
+
+    Organiza (cont_lin),(cont_col),(aux_L),(int)
+
+   # inc edx            edx sendo usado p/ testar quantas vezes entra no loop coluna
+    mov $0, ($ik) 
+ 
+    multiplica (ik),(soma),(aux_L),(int),(var)
+    
+
+    push %eax
+    push %ebx
+  
+    
+    mov  16(%ebp), %eax,                   # passando o endereço da primeira casa da matriz R
+    add (%contador_R), %eax
+    mov (%soma), %ebx
+    mov %ebx, (%eax) 
+    mov $0, (%soma)
+    add $4, (%contador_R)
+
+
+    pop %ebx
+    pop %eax
+
+    add $1,(%cont_col) 
+   
+
+loop_coluna_cond:           
+    xor %eax, %eax
+    mov ($cont_col), %eax
+    cmp ($var), %eax
+    jl loop_coluna
+    add $1, ($cont_lin)
+
+loop_linha_cond:    
+    xor %eax, %eax
+    mov ($cont_lin), %eax
+    cmp ($var), %eax
+    jl loop_linha
+    
+
+
+# Fim do loop p/  multiplicar linhas por colunas
+fim:
+    
+
+    mov 16(%ebp), %eax
+# --------------------------------------------------------------------------
+    mov %esp,%ebp
+    pop %ebp
+    ret
