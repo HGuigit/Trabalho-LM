@@ -1,3 +1,0 @@
-nasm -f elf -o programa.o programa.asm
-
-gcc -m32 -o programa.out programa.c programa_asm.o
