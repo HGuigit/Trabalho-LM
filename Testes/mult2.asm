@@ -77,9 +77,9 @@ var: dd 0
 %endmacro 
 
 SECTION .text
-global mul_matriz
+global mul_matriz2
 
-mul_matriz:
+mul_matriz2:
 
     push ebp
     mov ebp,esp
@@ -147,6 +147,8 @@ loop_linha_cond:
     cmp eax,[var]
     jl loop_linha
     
+
+
 
 
 ; Fim do loop p/  multiplicar linhas por colunas

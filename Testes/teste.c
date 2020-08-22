@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 
-int L = 2;
+int L = 15;
 
 int main()
 {
@@ -11,9 +11,12 @@ int main()
     int i,j;
     int a[L][L];
     int b[L][L];
+    int c[L][L];
     int R[L][L];
+    int R2[L][L];
     srand(time(0));
-    int resultado;
+    int *resultado;
+    int resultado2;
 
     for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 10
     {
@@ -21,6 +24,7 @@ int main()
         {
             a[i][j] = (rand()%5);                      
             b[i][j] = (rand()%5);
+            c[i][j] = (rand()%5);
         }
     }
 
@@ -29,6 +33,7 @@ int main()
         for(j=0;j<L;j++)
         {
             R[i][j] = 0;
+            R2[i][j] = 0;
         }
     }
 
@@ -54,15 +59,54 @@ int main()
         printf("\n");
     }
 
+    printf("\n-------- Matriz C --------\n");
+
+    for(i=0;i<L;i++) 
+    {                                       
+        for(j=0;j<L;j++)
+        {
+            printf("%d ",c[i][j]);
+        }
+        printf("\n");
+    }
 
 
 
-    extern int mul_matriz (int*,int*,int*,int);
+    extern int* mul_matriz (int*,int*,int*,int);
+    extern int mul_matriz2 (int*,int*,int*,int);
+
 
     resultado = mul_matriz(*a,*b,*R,L);
-
     
     printf("\n-------- Matriz R --------\n");
-    printf("%d ",resultado);
+    
 
+    for (i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            R2[i][j] = resultado[i+j];
+            printf("%.2d ",resultado[i+j]);
+        }
+        printf("\n");
+    }
+    
+    resultado2 = mul_matriz2(*c,*R2,*R,L);
+
+    printf("\n-------- Matriz R2 --------\n");
+  
+
+    for (i=0;i<L;i++)
+    {
+        for(j=0;j<L;j++)
+        {
+            printf("%.2d ",R[i][j]);
+        }
+        printf("\n");
+    }
+
+    printf("\n\n");
+    printf("Menor elemento da diagonal: %d", resultado2);
+      
+   
 }

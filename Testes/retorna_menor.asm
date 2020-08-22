@@ -1,5 +1,7 @@
 SECTION .data
 
+menor_elemento : dd 0
+
 ik: dd 0
 aux_L : dd 0
 
@@ -77,9 +79,9 @@ var: dd 0
 %endmacro 
 
 SECTION .text
-global mul_matriz
+global mul_matriz2
 
-mul_matriz:
+mul_matriz2:
 
     push ebp
     mov ebp,esp
@@ -127,7 +129,6 @@ loop_coluna:
     mov dword [soma],0
     add dword [contador_R],4
 
-
     pop ebx
     pop eax
 
@@ -147,13 +148,43 @@ loop_linha_cond:
     cmp eax,[var]
     jl loop_linha
     
+    
 
 
 ; Fim do loop p/  multiplicar linhas por colunas
-fim:
-    
 
-    mov eax,[ebp+16] 
+mov dword [contador_R],0
+
+mov eax,[ebp+16]
+mov ecx,[eax]
+mov [menor_elemento],ecx
+mov ebx,[var]
+
+jmp cond_loop_teste
+loop_Teste:
+
+    add eax,[aux_L]
+    add eax,[int]
+
+    mov ecx,[eax]
+    cmp ecx,[menor_elemento]
+    jb achou_menor
+
+cond_loop_teste:
+
+    add dword [contador_R],1
+    cmp dword [contador_R],ebx
+    jb loop_Teste
+
+    jmp fim
+
+achou_menor:
+    mov [menor_elemento],ecx
+    jmp cond_loop_teste
+
+fim:
+
+    mov eax,[menor_elemento] 
 ; --------------------------------------------------------------------------
     mov esp,ebp
     pop ebp
