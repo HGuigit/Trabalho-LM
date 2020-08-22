@@ -4,12 +4,13 @@
 #include <time.h>
 
 
-int L = 5;                                                  // Tamanho das matrizes
+int L = 100;                                                  // Tamanho das matrizes
 
 
 int main(void){
 
-    srand(time(NULL));
+    clock_t begin  = clock();
+    srand(time(0));
     int i,j,k;
     int soma = 0;
     int menor;
@@ -18,15 +19,16 @@ int main(void){
         matriz_B[L][L],
         matriz_C[L][L],
         matriz_R[L][L];
-    
+    double tempo_gasto = 0.0;
+
     
     for(i=0;i<L;i++)                                        // Preencher as matrizes A,B e C com valores aleatórios de 0 a 10
     {
         for(j=0;j<L;j++)
         {
-            matriz_A[i][j] = (rand()%10);                      
-            matriz_B[i][j] = (rand()%10);
-            matriz_C[i][j] = (rand()%10);
+            matriz_A[i][j] = (rand()%5);                      
+            matriz_B[i][j] = (rand()%5);
+            matriz_C[i][j] = (rand()%5);
         }
     }
 
@@ -150,19 +152,14 @@ int main(void){
         printf("%d ",diagonal[i]) ;
     }
 
+    printf("\n");
     printf("\n --> Menor Elemento: ");
     printf("%d\n",menor);
 
-    //chamada NASM
-	extern int bubble_nasm(int*, int);
-	
-	int r=0; 
-	
-	r=bubble_nasm(diagonal, i); //passa o ponteiro da diagonal 
-	
-	printf("Teste NASM:\n");
-	printf("R: %d", r);
+    clock_t end  = clock();
+    tempo_gasto += (double)(end-begin)/CLOCKS_PER_SEC;
 
+    printf("\nTempo gasto: %lf segundos" ,tempo_gasto);
 }
 
 
