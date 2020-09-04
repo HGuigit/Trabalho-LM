@@ -1,0 +1,18 @@
+
+NASM:
+
+nasm -f elf -o programa.o programa.asm
+
+gcc -m32 -o programa.out programa.c programa_asm.o 
+
+gcc -m32 -o programa.out programa.c programa_asm.o programa_asm2.o
+
+
+
+// ------------------------------------------------
+
+GAS:
+
+as --32 -o programa.o programa.s
+
+gcc -m32 -o programa.out programa.c programa_asm.o programa_asm2.o
